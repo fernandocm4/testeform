@@ -1,0 +1,22 @@
+name: "DEV DEPLOY"
+
+on:
+  push:
+    branches:
+      - main
+
+#requirido para fazer o assume role
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  terraform:
+    uses:
+      ./.github/workflows/terraform.yml
+    with:
+      environment: prod
+      aws-assume-role-arn: "arn:aws:iam::315044339575:role/github-actions-fernandocm4-pipeline"
+      aws-region: "us-east-2"
+      aws-statefile-s3-bucket: "fernandocm4-sa-east-1-terraform-statefile"
+      aws-lock-dynamodb-table: "fernandocm4-sa-east-1-terraform-lock"
